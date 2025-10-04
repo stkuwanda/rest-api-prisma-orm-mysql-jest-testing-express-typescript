@@ -258,6 +258,51 @@ You should receive a 200 response similar to:
 }
 ```
 
+## Environment variables with dotenv-cli
+
+If you'd like to load environment variables from a `.env` file when running the app in development, you can use `dotenv-cli`.
+
+Install it as a dev dependency:
+
+```bash
+npm i dotenv-cli -D
+```
+
+Create a `.env` file in the project root (don't commit it). Example `.env`:
+
+```env
+# .env.example
+PORT=3000
+NODE_ENV=development
+DATABASE_URL="mysql://user:pass@localhost:3306/dbname"
+```
+
+Run the dev server with variables from `.env` using `dotenv` (examples):
+
+```bash
+# run the npm dev script with variables loaded from .env
+npx dotenv -e .env -- npm run dev
+
+# or run nodemon directly through dotenv
+npx dotenv -e .env -- nodemon
+```
+
+You can also add a convenience script to `package.json`:
+
+```json
+"scripts": {
+	"dev": "dotenv -- nodemon"
+}
+```
+
+Then start with:
+
+```bash
+npm run dev
+```
+
+Note: `nodemon.json` already runs the TypeScript entry (`ts-node ./src/index.ts`), so using `dotenv` in front of `nodemon` is sufficient to load env variables for the process.
+
 Add a format script to `package.json`:
 
 ```json

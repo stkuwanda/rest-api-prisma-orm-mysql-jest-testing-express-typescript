@@ -200,6 +200,64 @@ Add a minimal Prettier configuration file (`.prettierrc`) if you want to customi
 }
 ```
 
+## Type definitions for common middleware
+
+When using Express and common middleware in TypeScript, it's helpful to install the community-maintained type definitions so the compiler knows the shapes of those modules.
+
+Install the type packages as dev dependencies:
+
+```bash
+npm i @types/express @types/cors @types/morgan -D
+```
+
+Usage notes:
+
+- After installing, TypeScript will automatically pick up the type definitions when you import `express`, `cors`, or `morgan` in your code (no additional config needed in most cases).
+- Example:
+
+```ts
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+
+const app = express();
+app.use(cors());
+app.use(morgan('dev'));
+
+app.get('/', (req, res) => {
+  res.send('hello');
+});
+```
+
+If TypeScript still can't find types, ensure your `tsconfig.json` includes `node_modules/@types` (it does by default) or add an explicit `types` array under `compilerOptions`.
+
+## Run the server in development
+
+This project includes a `nodemon` configuration (`nodemon.json`) that uses `ts-node` to run the app directly from the `src/` TypeScript sources. Start the server in dev mode with:
+
+```bash
+npm run dev
+```
+
+The server listens on port 3000 by default (see `src/index.ts`). The project exposes a simple health endpoint at `/health`.
+
+### Test the health endpoint with VS Code REST Client
+
+The repository contains an `api-test.http` file with a ready-made health-check request. To test from VS Code using the REST Client extension:
+
+1. Open `api-test.http` in VS Code.
+2. Make sure the server is running (`npm run dev`).
+3. Click the `Send Request` link that appears above the `GET http://localhost:3000/health` request, or place your cursor on the request and press `Ctrl+Alt+R` (or use the command palette: 'REST Client: Send Request').
+
+You should receive a 200 response similar to:
+
+```json
+{
+	"ok": true,
+	"message": "Server is healthy"
+}
+```
+
 Add a format script to `package.json`:
 
 ```json

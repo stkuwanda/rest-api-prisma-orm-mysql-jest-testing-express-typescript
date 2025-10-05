@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import config from './config';
-
+import v1 from './routes/v1';
 
 export const createServer = () => {
   const app = express();
@@ -21,6 +21,9 @@ export const createServer = () => {
       env: config.env, // use process.env.NODE_ENV or default to 'unknown'
     });
   });
+
+  // API routes
+  app.use('/api/v1', v1); // Prefix all v1 routes with /api/v1
 
   return app;
 };

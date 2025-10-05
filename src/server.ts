@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import config from './config';
 import v1 from './routes/v1';
+import errorHandler from './middleware/error-handler.middleware';
 
 export const createServer = () => {
   const app = express();
@@ -24,6 +25,9 @@ export const createServer = () => {
 
   // API routes
   app.use('/api/v1', v1); // Prefix all v1 routes with /api/v1
+
+  // Error handling middleware (should be the last middleware)
+  app.use(errorHandler);
 
   return app;
 };

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { getErrorMessage } from '../utils/error-handling.util';
 import config from '../config';
+import CustomError from '../errors/CustomError';
 
 // Centralized error handling middleware
 export default function errorHandler(
@@ -11,6 +12,15 @@ export default function errorHandler(
 ) {
   if (res.headersSent || config.debug) {
     return next(err);
+  }
+
+  if (err instanceof CustomError) {
+    res.status(err.statusCode).json({
+      error: {
+        message: err.message,
+        code: err.code,
+      },
+    });
   }
 
   res.status(500).json({

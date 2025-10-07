@@ -1,23 +1,31 @@
 import { Request, Response } from 'express';
 import { asyncHandler } from '../../../utils/error-handling.util';
-// import EntityNotFoundError from '../../../errors/EntityNotFoundError';
+import EntityNotFoundError from '../../../errors/EntityNotFoundError';
+import prisma from '../../../prisma-client';
 
-export const listTasks = (req: Request, res: Response) => {
+export const listTasks = asyncHandler(async (req: Request, res: Response) => {
   // Logic to list all tasks
-  res.status(200).json({ message: 'List of all tasks', tasks: [] });
-};
+  const tasks = await prisma.task.findMany();
+  res.status(200).json({ message: 'List of all tasks', tasks });
+});
 
 export const getTask = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  // throw new EntityNotFoundError({
-  //   message: 'Entity not found!',
-  //   statusCode: 404,
-  //   code: 'ERR_NF',
-  // });
+  const task = await prisma.project.findUnique({
+    where: { id },
+  });
+
+  if (!task) {
+    throw new EntityNotFoundError({
+      message: 'Task not found!',
+      statusCode: 404,
+      code: 'ERR_NF',
+    });
+  }
 
   // Logic to get a specific task by ID
   res.status(200).json({
     message: `Details of task with ID: ${id}`,
-    task: { id, name: 'Task 1' },
+    task,
   });
 });

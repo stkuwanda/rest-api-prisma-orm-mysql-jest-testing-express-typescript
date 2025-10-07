@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id           String    @id @default(cuid()) // Primary key with a unique identifier. CUID is a good choice for distributed systems.It's a collision-resistant string ID. It can be indexed faster than UUID.
+  user_id      String    @db.VarChar(36) // UUID length
+  project_id   String? // Optional field
+  name         String
+  description  String?   @db.Text
+  due_date     DateTime? @db.Date
+  completed_on DateTime? @db.DateTime
+  created_at   DateTime  @default(now()) // Automatically set to the current timestamp on creation
+  updated_at   DateTime  @updatedAt // Automatically set to the current timestamp on update
+  project      Project?  @relation(fields: [project_id], references: [id]) // Relation to Project model
+
+  @@index([user_id]) // Index for faster queries by user_id
+  @@map("tasks") // Map to existing table name if needed
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  user_id     String   @db.VarChar(36) // UUID length
+  name        String
+  description String?  @db.Text
+  created_at  DateTime @default(now()) // Automatically set to the current timestamp on creation
+  updated_at  DateTime @updatedAt // Automatically set to the current timestamp on update
+  tasks       Task[]
+
+  @@index([user_id])
+  @@map("projects")
+}

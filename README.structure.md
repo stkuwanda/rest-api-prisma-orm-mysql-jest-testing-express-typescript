@@ -1,39 +1,50 @@
 ## Project Structure
 
+
 ```
 rest-api-prisma-orm-mysql-jest-testing-express-typescript/
-├── api-test.http                # HTTP requests for testing endpoints
-├── eslint.config.mjs            # ESLint configuration
-├── jest.config.mjs              # Jest configuration
-├── nodemon.json                 # Nodemon config for dev server
-├── package.json                 # Project metadata and scripts
-├── README.md                    # Project documentation
-├── tsconfig.json                # TypeScript configuration
+├── .env                        # Environment variables (not committed)
+├── .env.example                # Example env file
+├── .gitignore                  # Git ignore rules
+├── .prettierrc                 # Prettier config
+├── api-test.http               # HTTP requests for testing endpoints
+├── docker-compose.yaml         # Docker Compose for services
+├── eslint.config.mjs           # ESLint configuration
+├── jest.config.mjs             # Jest configuration
+├── nodemon.json                # Nodemon config for dev server
+├── package.json                # Project metadata and scripts
+├── prisma/                     # Prisma schema and migration files
+│   └── schema.prisma
+├── README.md                   # Project documentation
+├── README.structure.md         # Project structure documentation
+├── tsconfig.json               # TypeScript configuration
 └── src/
-    ├── config.ts                # App configuration
-    ├── index.ts                 # Main entry point
-    ├── server.ts                # Server setup
-    ├── errors/                  # Custom error classes/types
-    │   ├── CustomError.ts
-    │   ├── EntityNotFoundError.ts
-    │   └── types.d.ts
-    ├── middleware/              # Express middleware
-    │   └── error-handler.middleware.ts
-    ├── routes/                  # API routes
-    │   └── v1/
-    │       ├── index.ts
-    │       ├── projects/
-    │       │   ├── controller.ts
-    │       │   └── index.ts
-    │       └── tasks/
-    │           ├── controller.ts
-    │           └── index.ts
-    ├── tests/                   # Test files
-    │   ├── add.test.ts
-    │   └── error-handling.test.ts
-    └── utils/                   # Utility functions
-        ├── error-handling.util.ts
-        └── math.util.ts
+  ├── config.ts               # App configuration
+  ├── errors/                 # Custom error classes/types
+  │   ├── CustomError.ts
+  │   ├── EntityNotFoundError.ts
+  │   └── types.d.ts
+  ├── generated/              # (Optional) Generated code
+  ├── index.ts                # Main entry point
+  ├── middleware/             # Express middleware
+  │   └── error-handler.middleware.ts
+  ├── prisma-client.ts        # Prisma Client instance
+  ├── routes/                 # API routes
+  │   └── v1/
+  │       ├── index.ts
+  │       ├── projects/
+  │       │   ├── controller.ts
+  │       │   └── index.ts
+  │       └── tasks/
+  │           ├── controller.ts
+  │           └── index.ts
+  ├── server.ts               # Server setup
+  ├── tests/                  # Test files
+  │   ├── add.test.ts
+  │   └── error-handling.test.ts
+  └── utils/                  # Utility functions
+    ├── error-handling.util.ts
+    └── math.util.ts
 ```
 
 ## Scaffolding Overview

@@ -1,39 +1,50 @@
 ## Project Structure
 
+
 ```
 rest-api-prisma-orm-mysql-jest-testing-express-typescript/
-├── api-test.http                # HTTP requests for testing endpoints
-├── eslint.config.mjs            # ESLint configuration
-├── jest.config.mjs              # Jest configuration
-├── nodemon.json                 # Nodemon config for dev server
-├── package.json                 # Project metadata and scripts
-├── README.md                    # Project documentation
-├── tsconfig.json                # TypeScript configuration
+├── .env                        # Environment variables (not committed)
+├── .env.example                # Example env file
+├── .gitignore                  # Git ignore rules
+├── .prettierrc                 # Prettier config
+├── api-test.http               # HTTP requests for testing endpoints
+├── docker-compose.yaml         # Docker Compose for services
+├── eslint.config.mjs           # ESLint configuration
+├── jest.config.mjs             # Jest configuration
+├── nodemon.json                # Nodemon config for dev server
+├── package.json                # Project metadata and scripts
+├── prisma/                     # Prisma schema and migration files
+│   └── schema.prisma
+├── README.md                   # Project documentation
+├── README.structure.md         # Project structure documentation
+├── tsconfig.json               # TypeScript configuration
 └── src/
-		├── config.ts                # App configuration
-		├── index.ts                 # Main entry point
-		├── server.ts                # Server setup
-		├── errors/                  # Custom error classes/types
-		│   ├── CustomError.ts
-		│   ├── EntityNotFoundError.ts
-		│   └── types.d.ts
-		├── middleware/              # Express middleware
-		│   └── error-handler.middleware.ts
-		├── routes/                  # API routes
-		│   └── v1/
-		│       ├── index.ts
-		│       ├── projects/
-		│       │   ├── controller.ts
-		│       │   └── index.ts
-		│       └── tasks/
-		│           ├── controller.ts
-		│           └── index.ts
-		├── tests/                   # Test files
-		│   ├── add.test.ts
-		│   └── error-handling.test.ts
-		└── utils/                   # Utility functions
-				├── error-handling.util.ts
-				└── math.util.ts
+	├── config.ts               # App configuration
+	├── errors/                 # Custom error classes/types
+	│   ├── CustomError.ts
+	│   ├── EntityNotFoundError.ts
+	│   └── types.d.ts
+	├── generated/              # (Optional) Generated code
+	├── index.ts                # Main entry point
+	├── middleware/             # Express middleware
+	│   └── error-handler.middleware.ts
+	├── prisma-client.ts        # Prisma Client instance
+	├── routes/                 # API routes
+	│   └── v1/
+	│       ├── index.ts
+	│       ├── projects/
+	│       │   ├── controller.ts
+	│       │   └── index.ts
+	│       └── tasks/
+	│           ├── controller.ts
+	│           └── index.ts
+	├── server.ts               # Server setup
+	├── tests/                  # Test files
+	│   ├── add.test.ts
+	│   └── error-handling.test.ts
+	└── utils/                  # Utility functions
+		├── error-handling.util.ts
+		└── math.util.ts
 ```
 
 ## Scaffolding Overview
@@ -79,6 +90,50 @@ Create a TypeScript configuration file (`tsconfig.json`) with:
 npx tsc --init
 ```
 
+## Initialize Prisma ORM (MySQL)
+
+Install Prisma CLI as a dev dependency:
+
+```bash
+npm install prisma --save-dev
+```
+
+Then initialize Prisma with MySQL as the datasource provider:
+
+```bash
+npx prisma init --datasource-provider mysql
+```
+
+This will create a new `prisma/` folder with a `schema.prisma` file and a `.env` file in your project root. Update the `DATABASE_URL` in `.env` to match your MySQL connection string:
+
+```env
+DATABASE_URL="mysql://user:pass@localhost:3306/dbname"
+```
+
+After editing your schema, generate Prisma Client and run migrations:
+
+```bash
+npx prisma generate
+npx prisma migrate dev --create-only --name create-table-name1-and-table-name2-tables
+npx prisma migrate deploy
+```
+
+Or preferred way is to use the following scripts:
+
+```bash
+npm run prisma:generate
+npm run migrate:create -- --name create-table-name1-and-table-name2-tables
+npm run migrate:deploy
+```
+
+Or to run creation and deployment in one go use the following scripts:
+
+```bash
+npm run prisma:generate
+npm run migrate -- --name create-table-name1-and-table-name2-tables
+```
+
+See [Prisma documentation](https://www.prisma.io/docs/) for more details on modeling your database and using Prisma Client in your code.
 Or use the `@tsconfig/node22` base config by adding it to `tsconfig.json`'s `extends` field. Example `tsconfig.json` content:
 
 ```json

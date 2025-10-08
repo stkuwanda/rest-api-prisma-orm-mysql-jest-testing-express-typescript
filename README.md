@@ -78,11 +78,31 @@ Install project dependencies:
 npm install
 ```
 
+
 Install TypeScript and useful dev tools for this project (saved as devDependencies):
 
 ```bash
 npm i typescript ts-node @types/node @tsconfig/node22 -D
 ```
+
+## Using Faker for Test Data
+
+Install [@faker-js/faker](https://www.npmjs.com/package/@faker-js/faker) as a dev dependency to generate fake data for testing:
+
+```bash
+npm i @faker-js/faker -D
+```
+
+You can then import and use Faker in your test files. Example:
+
+```ts
+import { faker } from '@faker-js/faker';
+
+const randomName = faker.person.fullName();
+const randomEmail = faker.internet.email();
+```
+
+See the [Faker documentation](https://fakerjs.dev/) for more usage examples.
 
 Create a TypeScript configuration file (`tsconfig.json`) with:
 
@@ -110,6 +130,7 @@ This will create a new `prisma/` folder with a `schema.prisma` file and a `.env`
 DATABASE_URL="mysql://user:pass@localhost:3306/dbname"
 ```
 
+
 After editing your schema, generate Prisma Client and run migrations:
 
 ```bash
@@ -117,6 +138,19 @@ npx prisma generate
 npx prisma migrate dev --create-only --name create-table-name1-and-table-name2-tables
 npx prisma migrate deploy
 ```
+
+## Seeding the Database with Prisma
+
+To populate your database with seed data, use the following script:
+
+```bash
+npm run db:seed
+```
+
+This will run the Prisma seeder as defined in your project (see the `db:seed` script in `package.json`).
+Make sure your seed logic is implemented in the appropriate seed file (commonly `prisma/seed.ts`).
+
+You can customize your seed data using libraries like `@faker-js/faker` for generating random values.
 
 Or preferred way is to use the following scripts:
 

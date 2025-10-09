@@ -462,3 +462,14 @@ Run format with:
 ```bash
 npm run format
 ```
+
+## Simulate a JWT Token Server
+
+You can generate a test JWT token using the following command:
+
+```bash
+npm run jwt:test-token
+```
+
+This will run the script at `src/issue-test-token.ts` and output a JWT token for testing purposes.  
+Make sure your environment variables are set up as required by the script.

@@ -1,3 +1,4 @@
+import './express'; // for extending express types
 import { createServer } from './server';
 import config from './config';
 

@@ -6,7 +6,9 @@ import { asyncHandler } from '../../../utils/error-handling.util';
 export const listProjects = asyncHandler(
   async (req: Request, res: Response) => {
     // Logic to list all projects
-    const projects = await prisma.project.findMany();
+    const projects = await prisma.project.findMany({
+      where: { user_id: req.auth?.payload.sub as string },
+    });
     res.status(200).json({ message: 'List of all projects', projects });
   },
 );
@@ -15,7 +17,7 @@ export const getProject = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   // Logic to get a specific project by ID
   const project = await prisma.project.findUnique({
-    where: { id },
+    where: { id, user_id: req.auth?.payload.sub as string },
   });
 
   if (!project) {
@@ -38,7 +40,7 @@ export const listProjectTasks = asyncHandler(
 
     // Logic to list all tasks for a specific project
     const tasks = await prisma.task.findMany({
-      where: { project_id: id },
+      where: { project_id: id, user_id: req.auth?.payload.sub as string },
     });
 
     res.status(200).json({

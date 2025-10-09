@@ -1,3 +1,4 @@
+// Simulate server to issue JWT tokens for testing purposes
 import jwt from 'jsonwebtoken';
 import config from './config';
 

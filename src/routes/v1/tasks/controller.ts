@@ -12,9 +12,8 @@ export const listTasks = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getTask = asyncHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const task = await prisma.project.findUnique({
-    where: { id, user_id: req.auth?.payload.sub as string },
+  const task = await prisma.task.findUnique({
+    where: { id: req.params.id },
   });
 
   if (!task) {
@@ -27,7 +26,7 @@ export const getTask = asyncHandler(async (req: Request, res: Response) => {
 
   // Logic to get a specific task by ID
   res.status(200).json({
-    message: `Details of task with ID: ${id}`,
+    message: `Details of task with ID: ${req.params.id}`,
     task,
   });
 });

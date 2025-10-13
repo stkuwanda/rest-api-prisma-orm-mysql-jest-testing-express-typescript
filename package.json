@@ -48,7 +48,7 @@
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
-    "prisma": "^6.16.3",
+    "prisma": "^6.17.1",
     "ts-jest": "^29.4.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
@@ -58,7 +58,7 @@
     "eslint": "^9.37.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.16.3",
+    "@prisma/client": "^6.17.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",

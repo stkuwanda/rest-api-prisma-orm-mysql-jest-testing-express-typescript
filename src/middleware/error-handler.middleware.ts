@@ -24,6 +24,15 @@ export default function errorHandler(
     });
   }
 
+  if (err instanceof UnauthorizedError) {
+    res.status(err.statusCode).json({
+      error: {
+        message: err.message,
+        code: 'code' in err ? err.code : 'ERR_AUTH',
+      },
+    });
+  }
+
   res.status(500).json({
     error: {
       message:
